@@ -1,60 +1,30 @@
+# Define UI for app that draws a histogram ----
 ui <- fluidPage(
   
-  # Application title
-  titlePanel("When your heart has some rough edges..." ),
+  # App title ----
+  titlePanel("Hello Shiny!"),
   
-  titlePanel("... add vertices!" ),
-  
-  # Sidebar with a slider input for number of bins
+  # Sidebar layout with input and output definitions ----
   sidebarLayout(
+    
+    # Sidebar panel for inputs ----
     sidebarPanel(
-      sliderInput(inputId = "num_vertices",
-                  label = "vertices",
-                  step = 1,
-                  min = 10,
-                  max = 200,
-                  value = 16
-      ),
-      selectInput(inputId = "char_color",
-                  label = "color",
-                  selected = "magenta",
-                  choices = colors()
-      ),
-      selectInput(inputId = "char_fill",
-                  label = "fill",
-                  selected = "darkred",
-                  choices = colors(),
-      ),
-      radioButtons(inputId = "char_linetype",
-                   label = "linetype",
-                   selected = "dashed",
-                   choices = c("dashed", "dotted", "solid")),
-      sliderInput(inputId = "num_alpha",
-                  label = "alpha",
-                  value = .8,
-                  min = 0,
-                  max = 1,
-                  step = .02
-      ),
-      sliderInput(inputId = "num_linewidth",
-                  label = "linewidth",
-                  value = 4,
+      
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
                   min = 1,
-                  max = 5,
-                  step = 1
-      )
+                  max = 50,
+                  value = 30)
       
     ),
     
-    # Show a plot of the generated distribution
+    # Main panel for displaying outputs ----
     mainPanel(
-      plotOutput("distPlot")
+      
+      # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+      
     )
-    
   )
-  
-  
-  # titlePanel(x_mod)
-  
-  
 )
