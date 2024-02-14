@@ -25,8 +25,8 @@ return_heart_df <- function(n_vertices){
     dplyr::mutate(
       y = y0 + radius * (
         .85 * cos(the_n)
-        - .35 * cos(2 * the_n)
-        - .25 * cos(3 * the_n)
+        - .28 * cos(2 * the_n)
+        - .2 * cos(3 * the_n)
         - .05 * cos(4 * the_n)
       ) - rotation * pi,
       x = x0 + radius * (sin(the_n)^3) - rotation * pi)
@@ -263,25 +263,21 @@ code_general_form %>% str_replace_all("input_", "input$") ->
 # Define server logic required to draw a histogram ----
 server <- function(input, output) {
   
-  
-  output$distText <- renderText({
-    
-    for_shiny_interactivity %>%
-      # numeric
-      str_replace_all("input\\$num_vertices", as.character(input$num_vertices)) %>%
-      str_replace_all("input\\$num_alpha", as.character(input$num_alpha)) %>%
-      str_replace_all("input\\$num_linewidth", as.character(input$num_linewidth)) %>%
-      # character
-      str_replace_all("input\\$char_color", as.character(input$char_color) %>% paste0('\\"', ., '\\"')) %>%
-      str_replace_all("input\\$char_linetype", as.character(input$char_linetype) %>% paste0('\\"', ., '\\"')) %>%
-      str_replace_all("input\\$char_fill", as.character(input$char_fill) %>% paste0('\\"', ., '\\"'))
-    
-    
-  })
+
   
   output$distPlot <- renderPlot({
     
-    eval(parse(text = for_shiny_interactivity))
+    return_heart_df(n_vertices = input$num_vertices) %>%
+      ggplot() +
+      aes(x = x, y = y, group = group) +
+      geom_polygon(
+        fill = input$char_fill,
+        color = input$char_color,
+        linewidth = input$num_linewidth,
+        alpha = input$num_alpha,
+        linetype = input$char_linetype
+      ) +
+      coord_equal()
     
   })
   
