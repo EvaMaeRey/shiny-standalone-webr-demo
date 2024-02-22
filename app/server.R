@@ -20,4 +20,34 @@ server <- function(input, output) {
     
   })
   
+  output$tzTable <- shiny::renderDataTable({
+    
+    lubridate::ymd_hms(input$time, 
+            tz = input$tz) ->
+      meeting
+    
+    
+    time_to_local <- function(x, tz){
+      lubridate::with_tz(x, tz = tz) |>
+        as.character()
+    }
+    
+    library(tidyverse)
+    OlsonNames() %>% 
+      tibble(tz = .) |>
+      filter(tz != "US/Pacific-New") |>
+      filter(tz %>% str_detect("Amsterdam|Adelaide|Melbourne|Stockholm|US/Eastern|British|Europe/London|US/Pacific|Mountain|US/Central|Sydney|Europe/Vienna")) |>
+      mutate(meeting_ny = meeting) |>
+      mutate(local_time = purrr::map2(meeting_ny, tz, time_to_local))  |>
+      unnest(local_time) |>
+      group_by(local_time) |>
+      summarise(locations = paste(tz, collapse = "\n")) |> 
+      mutate(day = as_date(local_time) %>% wday(label = T)) |>
+      arrange(local_time) ->
+      df; df 
+    
+    
+    
+  })
+  
 }
