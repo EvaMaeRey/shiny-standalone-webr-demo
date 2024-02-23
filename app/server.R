@@ -1,3 +1,5 @@
+webr::install("tidyverse")
+
 # Define server logic required to draw a histogram ----
 server <- function(input, output) {
   
@@ -44,7 +46,7 @@ server <- function(input, output) {
       summarise(locations = paste(tz, collapse = "\n")) |> 
       mutate(day = as_date(local_time) %>% wday(label = T)) |>
       arrange(local_time) ->
-      df; df 
+      df; df  
     
     
     

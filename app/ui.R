@@ -27,7 +27,7 @@ ui <- fluidPage(
                          choices = OlsonNames(),
                          selected = "US/Mountain"
                          )
-      
+         
     ),
     
     # Main panel for displaying outputs ----
@@ -35,7 +35,7 @@ ui <- fluidPage(
       
       # Output: Histogram ----
       # shiny::plotOutput(outputId = "distPlot"),
-      shiny::dataTableOutput(outputId = "tzTable")
+      shiny::tableOutput(outputId = "tzTable")
       
     )
   )
