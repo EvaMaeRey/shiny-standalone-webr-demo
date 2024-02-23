@@ -35,7 +35,7 @@ ui <- fluidPage(
       
       # Output: Histogram ----
       # shiny::plotOutput(outputId = "distPlot"),
-      shiny::tableOutput(outputId = "tzTable")
+      shiny::dataTableOutput(outputId = "tzTable")
       
     )
   )
